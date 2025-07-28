@@ -1,12 +1,12 @@
-import { Text, View, StyleSheet } from 'react-native';
-import { multiply } from 'react-native-audio-duck';
-
-const result = multiply(3, 7);
+import { Text, View, StyleSheet, Pressable } from 'react-native';
+import { play } from 'react-native-audio-duck';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Pressable onPress={() => play('bell', true)}>
+        <Text>Play sound !</Text>
+      </Pressable>
     </View>
   );
 }

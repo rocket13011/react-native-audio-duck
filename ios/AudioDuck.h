@@ -1,5 +1,5 @@
-#import <AudioDuckSpec/AudioDuckSpec.h>
+#import <React/RCTBridgeModule.h>
+#import <ReactCommon/RCTTurboModule.h>
 
-@interface AudioDuck : NSObject <NativeAudioDuckSpec>
-
+@interface AudioDuck : NSObject <RCTBridgeModule>
 @end

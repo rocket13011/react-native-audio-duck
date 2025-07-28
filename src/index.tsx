@@ -1,5 +1,5 @@
 import AudioDuck from './NativeAudioDuck';
 
-export function multiply(a: number, b: number): number {
-  return AudioDuck.multiply(a, b);
+export function play(fileName: string, duckOtherAudio: boolean): Promise<void> {
+  return AudioDuck.play({ fileName, duckOtherAudio });
 }
