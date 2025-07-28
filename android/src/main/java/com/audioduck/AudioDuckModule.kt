@@ -5,9 +5,12 @@ import android.media.*
 import com.facebook.react.bridge.*
 import com.facebook.react.module.annotations.ReactModule
 
+import android.util.Log
+
+
 @ReactModule(name = AudioDuckModule.NAME)
 class AudioDuckModule(reactContext: ReactApplicationContext) :
-  ReactContextBaseJavaModule(reactContext) {
+  NativeAudioDuckSpec(reactContext) {
 
   companion object {
     const val NAME = "AudioDuck"
@@ -18,7 +21,8 @@ class AudioDuckModule(reactContext: ReactApplicationContext) :
   override fun getName(): String = NAME
 
   @ReactMethod
-  fun play(options: ReadableMap, promise: Promise) {
+  override fun play(options: ReadableMap, promise: Promise) {
+    Log.d("AudioDuck", "play called with options: $options");
     val fileName = options.getString("fileName") ?: run {
       promise.reject("MISSING_FILE", "Missing fileName")
       return
@@ -81,3 +85,4 @@ class AudioDuckModule(reactContext: ReactApplicationContext) :
     abandonAudioFocus()
   }
 }
+
