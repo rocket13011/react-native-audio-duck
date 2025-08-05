@@ -63,13 +63,13 @@ uri: Optional URI of the sound file (can be a local file or remote URL)
 volume: Optional playback volume (0.0 to 1.0, default is 1
 
 ```ts
-await AudioDuck.play({
+await play({
   fileName: 'bell',         // without file extension
   duckOtherAudio: true,     // enables system audio ducking
 });
 ```
 ```ts
-await AudioDuck.play({
+await play({
   uri: require('./assets/bell.mp3'),         // without file extension
   duckOtherAudio: true,     // enables system audio ducking
   volume: 0.5,              // optional playback volume (0.0 to 1.0)
@@ -82,13 +82,13 @@ await AudioDuck.play({
 
 ```ts
 import { Button } from 'react-native';
-import AudioDuck from 'react-native-audio-duck';
+import { play } from 'react-native-audio-duck';
 
 const MyComponent = () => (
   <Button
     title="Play Sound"
     onPress={() =>
-      AudioDuck.play({ fileName: 'bell', duckOtherAudio: true })
+      play({ fileName: 'bell', duckOtherAudio: true })
     }
   />
 );
