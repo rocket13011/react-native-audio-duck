@@ -14,13 +14,11 @@ RCT_EXPORT_MODULE()
      resolve:(nonnull RCTPromiseResolveBlock)resolve
       reject:(nonnull RCTPromiseRejectBlock)reject
 {
-  NSLog(@"[AudioDuck] play called with options: fileName=%@, uri=%@, requireUri=%@, duckOtherAudio=%@",
-        options.fileName(),
-        options.uri(),
-        options.duckOtherAudio().has_value() ? (options.duckOtherAudio().value() ? @"true" : @"false") : @"nil");
   NSString *fileName = options.fileName();
   NSString *uri = options.uri();
   std::optional<bool> duckOpt = options.duckOtherAudio();
+  double volume = options.volume().has_value() ? options.volume().value() : 1.0;
+  NSLog(@"[AudioDuck] volume option received: %f", volume);
 
   BOOL duck = duckOpt.has_value() ? duckOpt.value() : NO;
 
@@ -55,10 +53,11 @@ RCT_EXPORT_MODULE()
     reject(@"PLAYER_ERROR", error.localizedDescription, error);
     return;
   }
-
+  
+  [self.player prepareToPlay];
+  self.player.volume = volume;
   self.player.delegate = self;
   [self.player play];
-  resolve(nil);
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
