@@ -6,6 +6,7 @@ export interface Spec extends TurboModule {
     fileName?: string;
     uri?: string; // string for remote URI or number for require() (not work with metro)
     duckOtherAudio?: boolean;
+    volume?: number; // 0 to 1, default is 1
   }): Promise<void>;
 }
 

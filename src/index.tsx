@@ -5,6 +5,7 @@ type PlayOptions = {
   fileName?: string;
   uri?: string | number; // number for require()
   duckOtherAudio?: boolean;
+  volume?: number; // 0 to 1, default is 1
 };
 
 export function play(options: PlayOptions): Promise<void> {

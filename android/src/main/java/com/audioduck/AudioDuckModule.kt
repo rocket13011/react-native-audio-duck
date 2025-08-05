@@ -26,6 +26,7 @@ class AudioDuckModule(reactContext: ReactApplicationContext) :
     val fileName = if (options.hasKey("fileName")) options.getString("fileName") else null
     val uri = if (options.hasKey("uri")) options.getString("uri") else null
     val duckOtherAudio = if (options.hasKey("duckOtherAudio")) options.getBoolean("duckOtherAudio") else false
+    val volume = if (options.hasKey("volume")) options.getDouble("volume").toFloat() else 1.0f
 
     if (duckOtherAudio) {
       requestAudioFocus()
@@ -35,6 +36,7 @@ class AudioDuckModule(reactContext: ReactApplicationContext) :
       uri != null -> {
         try {
           mediaPlayer = MediaPlayer().apply {
+            setVolume(volume, volume)
             setDataSource(uri)
             setOnCompletionListener {
               abandonAudioFocus()
@@ -57,6 +59,7 @@ class AudioDuckModule(reactContext: ReactApplicationContext) :
           return
         }
         mediaPlayer = MediaPlayer.create(reactApplicationContext, resId).apply {
+          setVolume(volume, volume)
           setOnCompletionListener {
             abandonAudioFocus()
             promise.resolve(null)

@@ -5,7 +5,9 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Pressable
-        onPress={() => play({ fileName: 'bell', duckOtherAudio: true })}
+        onPress={() =>
+          play({ fileName: 'bell', duckOtherAudio: true, volume: 0.2 })
+        }
       >
         <Text>Play sound filename !</Text>
       </Pressable>
