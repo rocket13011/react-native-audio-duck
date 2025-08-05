@@ -18,7 +18,6 @@ RCT_EXPORT_MODULE()
   NSString *uri = options.uri();
   std::optional<bool> duckOpt = options.duckOtherAudio();
   double volume = options.volume().has_value() ? options.volume().value() : 1.0;
-  NSLog(@"[AudioDuck] volume option received: %f", volume);
 
   BOOL duck = duckOpt.has_value() ? duckOpt.value() : NO;
 

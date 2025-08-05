@@ -11,6 +11,8 @@ Compatible with **Android** and **iOS**.
 - Temporarily lower system audio volume (ducking)
 - Fully compatible with TurboModules, Fabric, Hermes
 - Supports both Android and iOS
+- Supports files on react-native bundle (with require)
+- Configurable playback volume
 
 ---
 
@@ -29,6 +31,7 @@ yarn add react-native-audio-duck
 ```
 android/src/main/res/raw/bell.mp3
 ```
+or on the React Native bundle
 
 ---
 
@@ -37,6 +40,8 @@ android/src/main/res/raw/bell.mp3
 1. **Add `bell.mp3` to your Xcode project’s `Resources` folder**
 2. **Ensure it's listed under**
    `Build Phases > Copy Bundle Resources`
+
+or on the React Native bundle
 
 ---
 
@@ -50,12 +55,24 @@ import AudioDuck from 'react-native-audio-duck';
 
 ### Methods
 
-#### `play(options: { fileName: string; duckOtherAudio: boolean }): Promise<void>`
+#### `play(options: { fileName?: string; duckOtherAudio: boolean, uri?: string | number, volume?: number}): Promise<void>`
+
+fileName: Name of the sound file (without extension, e.g. `bell` for `bell.mp3`)
+duckOtherAudio: Whether to duck other audio while playing this sound (true/false)
+uri: Optional URI of the sound file (can be a local file or remote URL)
+volume: Optional playback volume (0.0 to 1.0, default is 1
 
 ```ts
 await AudioDuck.play({
   fileName: 'bell',         // without file extension
   duckOtherAudio: true,     // enables system audio ducking
+});
+```
+```ts
+await AudioDuck.play({
+  uri: require('./assets/bell.mp3'),         // without file extension
+  duckOtherAudio: true,     // enables system audio ducking
+  volume: 0.5,              // optional playback volume (0.0 to 1.0)
 });
 ```
 
@@ -110,8 +127,8 @@ TurboModuleRegistry.getEnforcing(...): 'AudioDuck' could not be found
 
 ## ✅ TODO
 
-- [ ] Dynamic/remote file support
-- [ ] Configurable playback volume
+- [X] Dynamic/remote file support
+- [X] Configurable playback volume
 
 ## License
 MIT
