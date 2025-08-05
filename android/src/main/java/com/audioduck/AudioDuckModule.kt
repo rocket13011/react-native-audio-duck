@@ -23,32 +23,50 @@ class AudioDuckModule(reactContext: ReactApplicationContext) :
   @ReactMethod
   override fun play(options: ReadableMap, promise: Promise) {
     Log.d("AudioDuck", "play called with options: $options");
-    val fileName = options.getString("fileName") ?: run {
-      promise.reject("MISSING_FILE", "Missing fileName")
-      return
-    }
-
-    val duckOtherAudio = options.getBoolean("duckOtherAudio")
+    val fileName = if (options.hasKey("fileName")) options.getString("fileName") else null
+    val uri = if (options.hasKey("uri")) options.getString("uri") else null
+    val duckOtherAudio = if (options.hasKey("duckOtherAudio")) options.getBoolean("duckOtherAudio") else false
 
     if (duckOtherAudio) {
       requestAudioFocus()
     }
 
-    val resId = reactApplicationContext.resources.getIdentifier(
-      fileName, "raw", reactApplicationContext.packageName
-    )
-
-    if (resId == 0) {
-      promise.reject("FILE_NOT_FOUND", "Audio file not found in raw folder")
-      return
-    }
-
-    mediaPlayer = MediaPlayer.create(reactApplicationContext, resId).apply {
-      setOnCompletionListener {
-        abandonAudioFocus()
-        promise.resolve(null)
+    when {
+      uri != null -> {
+        try {
+          mediaPlayer = MediaPlayer().apply {
+            setDataSource(uri)
+            setOnCompletionListener {
+              abandonAudioFocus()
+              promise.resolve(null)
+            }
+            prepare()
+            start()
+          }
+        } catch (e: Exception) {
+          promise.reject("PLAYER_ERROR", e.message, e)
+          abandonAudioFocus()
+        }
       }
-      start()
+      fileName != null -> {
+        val resId = reactApplicationContext.resources.getIdentifier(
+          fileName, "raw", reactApplicationContext.packageName
+        )
+        if (resId == 0) {
+          promise.reject("FILE_NOT_FOUND", "Audio file not found in raw folder")
+          return
+        }
+        mediaPlayer = MediaPlayer.create(reactApplicationContext, resId).apply {
+          setOnCompletionListener {
+            abandonAudioFocus()
+            promise.resolve(null)
+          }
+          start()
+        }
+      }
+      else -> {
+        promise.reject("MISSING_FILE", "You must provide either `uri` or `fileName`")
+      }
     }
   }
 
