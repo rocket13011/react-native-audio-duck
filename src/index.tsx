@@ -12,7 +12,6 @@ export function play(options: PlayOptions): Promise<void> {
   const { uri, ...rest } = options;
 
   if (typeof uri === 'number') {
-    console.log('Playing sound from require:', { ...rest, requireUri: uri });
     const assetSource = Image.resolveAssetSource(uri);
     return AudioDuck.play({ ...rest, uri: assetSource.uri });
   }
