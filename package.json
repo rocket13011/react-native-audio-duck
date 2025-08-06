@@ -1,6 +1,6 @@
 {
   "name": "react-native-audio-duck",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A lightweight React Native TurboModule to play short audio files (e.g., .mp3) while optionally ducking (temporarily lowering) the volume of other apps.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
